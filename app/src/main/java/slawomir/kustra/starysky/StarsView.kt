@@ -7,17 +7,14 @@ import android.widget.FrameLayout
 import slawomir.kustra.starysky.utils.getStarSize
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.DisplayMetrics
-
-
-
-
+import slawomir.kustra.starysky.utils.getRandomPosition
 
 class StarsView : FrameLayout {
 
-    private lateinit var starIcon: Bitmap
-    private lateinit var starDestination: Rect
-    private lateinit var paint: Paint
+    private val stars: ArrayList<Bitmap> = arrayListOf()
+    private var starsContainerHeight = 0
+    private var starsContainerWidth = 0
+
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -37,17 +34,27 @@ class StarsView : FrameLayout {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        canvas.drawBitmap(starIcon, 50f,50f,null)
+        for (i in stars.indices) {
+            canvas.drawBitmap(stars[i], getRandomPosition(starsContainerWidth), getRandomPosition(starsContainerHeight), null)
+        }
     }
 
     private fun init(context: Context) {
-        val screenWidth = context.resources.displayMetrics.widthPixels
-        val starSize = getStarSize(screenWidth)
-        println("screenWidth: $screenWidth, starSize: $starSize")
+        starsContainerWidth = context.resources.displayMetrics.widthPixels
+        starsContainerHeight = context.resources.displayMetrics.heightPixels
+        println("starsContainerHeight: $starsContainerHeight, starsContainerHeight: $starsContainerHeight")
 
-        starIcon = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.star), starSize, starSize, false)
+        for (i in 1..10) {
+            val starSize = getStarSize(starsContainerWidth)
+            stars.add(
+                Bitmap.createScaledBitmap(
+                    BitmapFactory.decodeResource(resources, R.drawable.star),
+                    starSize,
+                    starSize,
+                    false
+                )
+            )
+        }
 
-        starDestination = Rect()
-        paint = Paint()
     }
 }
