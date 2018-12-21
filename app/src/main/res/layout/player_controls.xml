@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/player_margin_start"
+        android:layout_marginEnd="@dimen/player_margin_end"
+        android:layout_marginBottom="@dimen/player_margin_bottom"
+        android:orientation="horizontal"
+        android:background="@drawable/white_round_background"
+        android:layout_height="wrap_content">
+
+    <ImageView
+            android:src="@drawable/ic_chronometer"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+
+    <ImageView
+            android:src="@drawable/ic_play_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:scaleType="center"
+            android:layout_height="wrap_content"/>
+
+    <ImageView
+            android:scaleType="center"
+            android:src="@drawable/ic_chronometer"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -1,4 +1,4 @@
-package slawomir.kustra.starysky
+package slawomir.kustra.starysky.view
 
 import android.content.Context
 import android.graphics.*
@@ -7,16 +7,15 @@ import android.widget.FrameLayout
 import slawomir.kustra.starysky.utils.getStarSize
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import slawomir.kustra.starysky.R
 import slawomir.kustra.starysky.utils.Star
-import slawomir.kustra.starysky.utils.getRandomStarPosition
 import slawomir.kustra.starysky.utils.getStars
 
-class StarsView : FrameLayout {
+internal class StarsView : FrameLayout {
 
     private var stars: ArrayList<Star> = arrayListOf()
     private var starsContainerHeight = 0
     private var starsContainerWidth = 0
-
 
     constructor(context: Context) : super(context) {
         init(context)
