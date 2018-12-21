@@ -1,8 +1,10 @@
 package slawomir.kustra.starysky.view
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import slawomir.kustra.starysky.R
 
 class PlayerView : FrameLayout {
@@ -25,8 +27,8 @@ class PlayerView : FrameLayout {
 
     private fun init(context: Context) {
         inflate(context, R.layout.player_controls, this)
-
         val view = StarsView(context)
+        view.setBackgroundColor(Color.parseColor("#00000000"))
         this.addView(view)
     }
 }
