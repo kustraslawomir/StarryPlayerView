@@ -7,11 +7,13 @@ import android.widget.FrameLayout
 import slawomir.kustra.starysky.utils.getStarSize
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import slawomir.kustra.starysky.utils.getRandomPosition
+import slawomir.kustra.starysky.utils.Star
+import slawomir.kustra.starysky.utils.getRandomStarPosition
+import slawomir.kustra.starysky.utils.getStars
 
 class StarsView : FrameLayout {
 
-    private val stars: ArrayList<Bitmap> = arrayListOf()
+    private var stars: ArrayList<Star> = arrayListOf()
     private var starsContainerHeight = 0
     private var starsContainerWidth = 0
 
@@ -35,7 +37,13 @@ class StarsView : FrameLayout {
         super.onDraw(canvas)
 
         for (i in stars.indices) {
-            canvas.drawBitmap(stars[i], getRandomPosition(starsContainerWidth), getRandomPosition(starsContainerHeight), null)
+            if (stars[i].star != null)
+                canvas.drawBitmap(
+                    stars[i].star!!,
+                    stars[i].x,
+                    stars[i].y,
+                    null
+                )
         }
     }
 
@@ -44,16 +52,17 @@ class StarsView : FrameLayout {
         starsContainerHeight = context.resources.displayMetrics.heightPixels
         println("starsContainerHeight: $starsContainerHeight, starsContainerHeight: $starsContainerHeight")
 
-        for (i in 1..10) {
+        stars = getStars(starsContainerWidth, starsContainerHeight / 2)
+
+        for (i in 0..9) {
             val starSize = getStarSize(starsContainerWidth)
-            stars.add(
-                Bitmap.createScaledBitmap(
-                    BitmapFactory.decodeResource(resources, R.drawable.star),
-                    starSize,
-                    starSize,
-                    false
-                )
+            val star = Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(resources, R.drawable.star),
+                starSize,
+                starSize,
+                false
             )
+            stars[i].star = star
         }
 
     }
