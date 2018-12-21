@@ -49,7 +49,7 @@ internal class StarsView : FrameLayout {
     private fun init(context: Context) {
         starsContainerWidth = context.resources.displayMetrics.widthPixels
         starsContainerHeight = context.resources.displayMetrics.heightPixels
-        println("starsContainerHeight: $starsContainerHeight, starsContainerHeight: $starsContainerHeight")
+        println("starsContainerHeight: $starsContainerHeight, starsContainerWidth: $starsContainerWidth")
 
         stars = getStars(starsContainerWidth, starsContainerHeight / 2)
 

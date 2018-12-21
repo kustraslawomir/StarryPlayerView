@@ -2,7 +2,6 @@ package slawomir.kustra.starysky.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
 import slawomir.kustra.starysky.R
 
@@ -21,11 +20,13 @@ class PlayerView : FrameLayout {
         attributeSet,
         defStyleAttr
     ) {
-        this.addView(StarsView(context, attributeSet, defStyleAttr))
         init(context)
     }
 
     private fun init(context: Context) {
-        View.inflate(context, R.layout.player_controls, this)
+        inflate(context, R.layout.player_controls, this)
+
+        val view = StarsView(context)
+        this.addView(view)
     }
 }
