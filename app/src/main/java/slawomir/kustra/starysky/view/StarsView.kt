@@ -49,7 +49,6 @@ internal class StarsView : FrameLayout {
         for (i in stars.indices) {
             if (stars[i].star != null) {
                 alphaPaint.alpha = stars[i].alpha
-                println("alphaPaint.alpha ${alphaPaint.alpha}")
                 canvas.drawBitmap(
                     stars[i].star!!,
                     stars[i].x,
@@ -89,8 +88,10 @@ internal class StarsView : FrameLayout {
             val runnable = object : Runnable {
                 override fun run() {
                     postDelayed(this, 3000)
+
                     val starToAnimate = rangeRandomValue(0, stars.size)
                     val animator = ValueAnimator.ofInt(0, 100)
+
                     animator.duration = 2000
                     animator.interpolator = DecelerateInterpolator()
                     animator.addUpdateListener { animation ->
