@@ -5,10 +5,10 @@ import kotlin.collections.ArrayList
 
 fun getStarSize(screenWidth: Int): Int {
     val starSize = screenWidth / 15
-    return rand((starSize * 0.7).toInt(), (starSize * 1.3.toInt()))
+    return rangeRandomValue((starSize * 0.7).toInt(), (starSize * 1.3.toInt()))
 }
 
-fun rand(from: Int, to: Int): Int {
+fun rangeRandomValue(from: Int, to: Int): Int {
     val random = Random()
     return random.nextInt(to - from) + from
 }
