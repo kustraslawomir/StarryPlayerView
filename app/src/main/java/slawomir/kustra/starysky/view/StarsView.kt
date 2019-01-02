@@ -73,7 +73,7 @@ internal class StarsView : FrameLayout {
                 BitmapFactory.decodeResource(resources, R.drawable.star),
                 starSize,
                 starSize,
-                false
+                true
             )
             stars[i].star = star
         }
