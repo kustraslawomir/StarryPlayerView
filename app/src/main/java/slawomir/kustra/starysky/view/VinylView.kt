@@ -8,9 +8,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import android.animation.PropertyValuesHolder
-import slawomir.kustra.starysky.utils.Constants.Companion.PROPERTY_ROTATE
-
+import android.os.Handler
 
 class VinylView : View {
 
@@ -20,9 +18,17 @@ class VinylView : View {
     private lateinit var vinyl: Bitmap
 
     private val paint = Paint()
-    private val animator = ValueAnimator()
-    private var propertyRotate = PropertyValuesHolder.ofInt(PROPERTY_ROTATE, 0, 360)
+    private val animator = ValueAnimator.ofInt(0, 360)
     private var rotateAngle: Int = 0
+
+    private var rotateHandler = Handler()
+
+    private var rotateRunnable = object : Runnable {
+        override fun run() {
+            postDelayed(this, 5000)
+            animator.start()
+        }
+    }
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -42,10 +48,6 @@ class VinylView : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (::vinyl.isInitialized) {
-
-            val left = (vinylContainerWidth - vinyl.width) / 2f
-            val top = (vinylContainerHeight / 2 - vinyl.height) / 2f
-
             canvas.save()
 
             canvas.rotate(
@@ -53,8 +55,10 @@ class VinylView : View {
                 (vinylContainerWidth - vinyl.width).toFloat(),
                 (vinylContainerHeight / 2 - vinyl.height).toFloat()
             )
-            canvas.drawBitmap(vinyl, left, top, paint)
 
+            val left = (vinylContainerWidth - vinyl.width) / 2f
+            val top = (vinylContainerHeight / 2 - vinyl.height) / 2f
+            canvas.drawBitmap(vinyl, left, top, paint)
             canvas.restore()
         }
     }
@@ -71,18 +75,18 @@ class VinylView : View {
             true
         )
 
-        animator.setValues(propertyRotate)
-        animator.repeatMode = ValueAnimator.REVERSE
-        animator.duration = 10000
-
+        animator.duration = 5000
         animator.addUpdateListener { animation ->
-            val rotation = animation.getAnimatedValue(PROPERTY_ROTATE) as Int
-            if (rotateAngle != rotation) {
-                rotateAngle = rotation
+            val value = animation.animatedValue.toString().toInt()
+            if (rotateAngle != value) {
+                rotateAngle = value
                 println("rotateAngle: $rotateAngle")
                 invalidate()
             }
         }
-        animator.start()
+
+        rotateHandler.apply {
+            postDelayed(rotateRunnable, 0)
+        }
     }
 }
