@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+        android:animateLayoutChanges="true"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:padding="15dp"
@@ -18,6 +19,7 @@
             android:layout_height="wrap_content"/>
 
     <ImageView
+            android:id="@+id/mediaControl"
             android:src="@drawable/ic_play_button"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -26,7 +28,7 @@
 
     <ImageView
             android:scaleType="center"
-            android:src="@drawable/ic_chronometer"
+            android:src="@drawable/ic_pencil_edit_button"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"/>

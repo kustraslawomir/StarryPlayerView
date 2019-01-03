@@ -9,6 +9,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.os.Handler
+import android.view.animation.LinearInterpolator
 
 class VinylView : View {
 
@@ -30,6 +31,8 @@ class VinylView : View {
         }
     }
 
+    private var lastTimeStamp = System.currentTimeMillis()
+
     constructor(context: Context) : super(context) {
         init(context)
     }
@@ -50,15 +53,16 @@ class VinylView : View {
         if (::vinyl.isInitialized) {
             canvas.save()
 
-            canvas.rotate(
-                rotateAngle.toFloat(),
-                (vinylContainerWidth - vinyl.width).toFloat(),
-                (vinylContainerHeight / 2 - vinyl.height).toFloat()
-            )
+            val left = (vinylContainerWidth - vinyl.width).toFloat()
+            val top = (vinylContainerHeight / 2 - vinyl.height).toFloat()
 
-            val left = (vinylContainerWidth - vinyl.width) / 2f
-            val top = (vinylContainerHeight / 2 - vinyl.height) / 2f
-            canvas.drawBitmap(vinyl, left, top, paint)
+            canvas.rotate(rotateAngle.toFloat(), left, top)
+
+            canvas.drawBitmap(vinyl, left / 2, top / 2, paint)
+
+            println("lastTimeStamp diff: ${System.currentTimeMillis() - lastTimeStamp}")
+            lastTimeStamp = System.currentTimeMillis()
+
             canvas.restore()
         }
     }
@@ -74,8 +78,9 @@ class VinylView : View {
             vinylSize,
             true
         )
-
+        animator.interpolator = LinearInterpolator()
         animator.duration = 5000
+
         animator.addUpdateListener { animation ->
             val value = animation.animatedValue.toString().toInt()
             if (rotateAngle != value) {
@@ -84,9 +89,23 @@ class VinylView : View {
                 invalidate()
             }
         }
+    }
 
+    private fun runRotateHandler() {
         rotateHandler.apply {
             postDelayed(rotateRunnable, 0)
         }
+    }
+
+    private fun stopRotatingHandler() {
+        rotateHandler.removeCallbacks(rotateRunnable)
+    }
+
+    fun resumePlayerUi() {
+        animator.resume()
+    }
+
+    fun pausePlayerUi() {
+        animator.pause()
     }
 }
