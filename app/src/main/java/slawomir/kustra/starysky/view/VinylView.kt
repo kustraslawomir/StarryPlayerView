@@ -78,6 +78,7 @@ class VinylView : View {
             vinylSize,
             true
         )
+        animator.repeatCount = ValueAnimator.INFINITE
         animator.interpolator = LinearInterpolator()
         animator.duration = 5000
 
@@ -88,6 +89,10 @@ class VinylView : View {
                 println("rotateAngle: $rotateAngle")
                 invalidate()
             }
+            if (rotateAngle == 360) {
+                println("reset animation")
+                rotateAngle = 0
+             }
         }
     }
 
@@ -102,10 +107,15 @@ class VinylView : View {
     }
 
     fun resumePlayerUi() {
-        animator.resume()
+        println("resumePlayerUi $rotateAngle")
+        if (rotateAngle != 0)
+            animator.resume()
+        else
+            animator.start()
     }
 
     fun pausePlayerUi() {
+        println("pausePlayerUi")
         animator.pause()
     }
 }
