@@ -5,7 +5,8 @@ import android.graphics.Bitmap
 class Star(
     var star: Bitmap?,
     val x: Float,
-    val y: Float
+    val y: Float,
+    var shouldAnimate: Boolean
 ) {
     internal var alpha = 255
 }

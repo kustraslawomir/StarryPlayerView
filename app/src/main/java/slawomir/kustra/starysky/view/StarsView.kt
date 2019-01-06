@@ -5,14 +5,12 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import slawomir.kustra.starysky.utils.getStarSize
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Handler
-import slawomir.kustra.starysky.R
-import slawomir.kustra.starysky.utils.Star
-import slawomir.kustra.starysky.utils.getStars
-import slawomir.kustra.starysky.utils.rangeRandomValue
+import android.graphics.RectF
+import slawomir.kustra.starysky.utils.*
+
 
 internal class StarsView : FrameLayout {
 
@@ -58,17 +56,43 @@ internal class StarsView : FrameLayout {
         init(context)
     }
 
+    fun scaleBitmapAndKeepRation(targetBmp: Bitmap, reqHeightInPixels: Int, reqWidthInPixels: Int): Bitmap {
+        val matrix = Matrix()
+        matrix.setRectToRect(
+            RectF(0f, 0f, targetBmp.width.toFloat(), targetBmp.height.toFloat()),
+            RectF(0f, 0f, reqWidthInPixels.toFloat(), reqHeightInPixels.toFloat()),
+            Matrix.ScaleToFit.CENTER
+        )
+        return Bitmap.createBitmap(targetBmp, 0, 0, targetBmp.width, targetBmp.height, matrix, true)
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
+
         for (i in stars.indices) {
             if (stars[i].star != null) {
-                alphaPaint.alpha = stars[i].alpha
-                canvas.drawBitmap(
-                    stars[i].star!!,
-                    stars[i].x,
-                    stars[i].y,
-                    alphaPaint
-                )
+
+                val bitmapStar = stars[i].star
+
+                if (bitmapStar != null) {
+                    alphaPaint.alpha = stars[i].alpha
+
+                    val startX = stars[i].x
+                    val startY = stars[i].y
+                    var endX = startX + bitmapStar.width
+                    var endY = startY + bitmapStar.height
+
+                    if (stars[i].shouldAnimate) {
+                        endX =startX + bitmapStar.width * ((stars[i].alpha * 100 / 255) * 0.010).toFloat()
+                        endY = startY + bitmapStar.height * ((stars[i].alpha * 100 / 255) * 0.010).toFloat()
+                    }
+
+                    println("test: ${((stars[i].alpha * 100 / 255) / 10)}")
+
+                    canvas.drawBitmap(bitmapStar, null, RectF(startX, startY, endX, endY), alphaPaint)
+                    println("startX: $startX startY $startY endX $endX endY $endY")
+                }
             }
         }
     }
@@ -82,7 +106,7 @@ internal class StarsView : FrameLayout {
         for (i in 0..9) {
             val starSize = getStarSize(starsContainerWidth)
             val star = Bitmap.createScaledBitmap(
-                BitmapFactory.decodeResource(resources, R.drawable.star),
+                BitmapFactory.decodeResource(resources, slawomir.kustra.starysky.R.drawable.ic_star),
                 starSize,
                 starSize,
                 true
@@ -107,7 +131,7 @@ internal class StarsView : FrameLayout {
     private fun animateStar() {
 
         val animator = ValueAnimator.ofInt(0, 100)
-        animator.duration = rangeRandomValue(2000, 5000).toLong()
+        animator.duration = rangeRandomValue(2500, 5000).toLong()
 
         var starToAnimate = rangeRandomValue(0, stars.size)
 
@@ -116,11 +140,13 @@ internal class StarsView : FrameLayout {
         }
 
         animatingStars.add(starToAnimate)
+        stars[starToAnimate].shouldAnimate = getRandomBoolean()
 
         animator.addUpdateListener { animation ->
             val animatedValue = animation.animatedValue.toString().toInt()
             val starAlphaValue = (animatedValue * 0.01 * 255).toInt()
 
+            println("starAlphaValue $starAlphaValue")
             if (animatedValue >= 50)
                 stars[starToAnimate].alpha = starAlphaValue
             else
