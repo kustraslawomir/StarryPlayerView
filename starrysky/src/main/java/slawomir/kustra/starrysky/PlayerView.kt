@@ -1,16 +1,17 @@
-package slawomir.kustra.starysky.view
+package slawomir.kustra.starrysky
 
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.player_controls.view.*
-import slawomir.kustra.starysky.R
 import slawomir.kustra.starysky.utils.Constants.Companion.PAUSE
 import slawomir.kustra.starysky.utils.Constants.Companion.RESUME
+import slawomir.kustra.starysky.view.StarsView
+import slawomir.kustra.starysky.view.VinylView
 import kotlin.properties.Delegates
 
-class PlayerView : FrameLayout {
+open class PlayerView : FrameLayout {
 
     private lateinit var vinylView: VinylView
 
