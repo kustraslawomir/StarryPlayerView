@@ -1,4 +1,4 @@
-package slawomir.kustra.starysky.utils
+package slawomir.kustra.starrysky.utils
 
 class Constants {
     companion object {

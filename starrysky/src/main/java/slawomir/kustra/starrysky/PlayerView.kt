@@ -4,11 +4,12 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.widget.FrameLayout
-import kotlinx.android.synthetic.main.player_controls.view.*
+import kotlinx.android.synthetic.main.controls_ui.view.*
 import slawomir.kustra.starrysky.R.*
-import slawomir.kustra.starysky.utils.Constants.Companion.PAUSE
-import slawomir.kustra.starysky.utils.Constants.Companion.RESUME
+import slawomir.kustra.starrysky.utils.Constants.Companion.PAUSE
+import slawomir.kustra.starrysky.utils.Constants.Companion.RESUME
 import kotlin.properties.Delegates
 
 open class PlayerView : FrameLayout {
@@ -48,33 +49,34 @@ open class PlayerView : FrameLayout {
     }
 
     private fun init(context: Context, attributeSet: AttributeSet?) {
-        inflate(context, layout.player_controls, this)
+        inflate(context, layout.controls_ui, this)
 
         vinylView = VinylView(context)
         vinylView.setBackgroundColor(Color.parseColor("#00000000"))
         addView(vinylView)
 
-        var shouldDrawPlayerControls = false
+        var shouldDrawPlayerControls = true
 
         if (attributeSet != null) {
             val typedArray = context.theme.obtainStyledAttributes(attributeSet, styleable.PlayerView, 0, 0)
             try {
-                shouldDrawPlayerControls = typedArray.getBoolean(R.styleable.PlayerView_player_visible, false)
+                shouldDrawPlayerControls = typedArray.getBoolean(R.styleable.PlayerView_player_visible, true)
             } finally {
                 Log.d("PlayerView", "shouldDrawPlayerControls $shouldDrawPlayerControls")
             }
         }
 
-        if (shouldDrawPlayerControls) {
-            val starsView = StarsView(context)
-            starsView.setBackgroundColor(Color.parseColor("#00000000"))
-            addView(starsView)
+        val starsView = StarsView(context)
+        starsView.setBackgroundColor(Color.parseColor("#00000000"))
+        addView(starsView)
 
-            mediaControl.setOnClickListener {
-                if (playerState == RESUME)
-                    pausePlayerUi()
-                else resumePlayerUi()
-            }
+        if (!shouldDrawPlayerControls)
+            controls.visibility = View.GONE
+
+        mediaControl.setOnClickListener {
+            if (playerState == RESUME)
+                pausePlayerUi()
+            else resumePlayerUi()
         }
     }
 

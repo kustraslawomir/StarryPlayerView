@@ -1,10 +1,10 @@
-package slawomir.kustra.starysky.utils
+package slawomir.kustra.starrysky.utils
 
 import java.util.*
 import kotlin.collections.ArrayList
 
 fun getStarSize(screenWidth: Int): Int {
-    val starSize = screenWidth / 17
+    val starSize = screenWidth / 11
     return rangeRandomValue((starSize * 0.3).toInt(), (starSize * 1))
 }
 
