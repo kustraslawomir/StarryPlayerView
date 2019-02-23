@@ -3,8 +3,10 @@ package slawomir.kustra.starrysky
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.player_controls.view.*
+import slawomir.kustra.starrysky.R.*
 import slawomir.kustra.starysky.utils.Constants.Companion.PAUSE
 import slawomir.kustra.starysky.utils.Constants.Companion.RESUME
 import kotlin.properties.Delegates
@@ -20,21 +22,21 @@ open class PlayerView : FrameLayout {
         when (state) {
             PAUSE -> {
                 vinylView.pausePlayerUi()
-                mediaControl.setImageResource(R.drawable.ic_play_button)
+                mediaControl.setImageResource(drawable.ic_ico_play)
             }
             RESUME -> {
                 vinylView.resumePlayerUi()
-                mediaControl.setImageResource(R.drawable.ic_pause_button)
+                mediaControl.setImageResource(drawable.ic_pause_button)
             }
         }
     }
 
     constructor(context: Context) : super(context) {
-        init(context)
+        init(context, null)
     }
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
-        init(context)
+        init(context, attributeSet)
     }
 
     constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int) : super(
@@ -42,24 +44,37 @@ open class PlayerView : FrameLayout {
         attributeSet,
         defStyleAttr
     ) {
-        init(context)
+        init(context, attributeSet)
     }
 
-    private fun init(context: Context) {
-        inflate(context, R.layout.player_controls, this)
+    private fun init(context: Context, attributeSet: AttributeSet?) {
+        inflate(context, layout.player_controls, this)
 
         vinylView = VinylView(context)
         vinylView.setBackgroundColor(Color.parseColor("#00000000"))
         addView(vinylView)
 
-        val starsView = StarsView(context)
-        starsView.setBackgroundColor(Color.parseColor("#00000000"))
-        addView(starsView)
+        var shouldDrawPlayerControls = false
 
-        mediaControl.setOnClickListener {
-            if (playerState == RESUME)
-                pausePlayerUi()
-            else resumePlayerUi()
+        if (attributeSet != null) {
+            val typedArray = context.theme.obtainStyledAttributes(attributeSet, styleable.PlayerView, 0, 0)
+            try {
+                shouldDrawPlayerControls = typedArray.getBoolean(R.styleable.PlayerView_player_visible, false)
+            } finally {
+                Log.d("PlayerView", "shouldDrawPlayerControls $shouldDrawPlayerControls")
+            }
+        }
+
+        if (shouldDrawPlayerControls) {
+            val starsView = StarsView(context)
+            starsView.setBackgroundColor(Color.parseColor("#00000000"))
+            addView(starsView)
+
+            mediaControl.setOnClickListener {
+                if (playerState == RESUME)
+                    pausePlayerUi()
+                else resumePlayerUi()
+            }
         }
     }
 
