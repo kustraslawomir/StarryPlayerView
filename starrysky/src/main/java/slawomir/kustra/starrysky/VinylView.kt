@@ -1,4 +1,4 @@
-package slawomir.kustra.starysky.view
+package slawomir.kustra.starrysky
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -73,7 +73,7 @@ class VinylView : View {
 
         val vinylSize = (vinylContainerHeight / 2 * 0.5).toInt()
         vinyl = Bitmap.createScaledBitmap(
-            BitmapFactory.decodeResource(resources, slawomir.kustra.starysky.R.drawable.vinyl),
+            BitmapFactory.decodeResource(resources, R.drawable.vinyl),
             vinylSize,
             vinylSize,
             true

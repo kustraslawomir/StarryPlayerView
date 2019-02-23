@@ -7,8 +7,6 @@ import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.player_controls.view.*
 import slawomir.kustra.starysky.utils.Constants.Companion.PAUSE
 import slawomir.kustra.starysky.utils.Constants.Companion.RESUME
-import slawomir.kustra.starysky.view.StarsView
-import slawomir.kustra.starysky.view.VinylView
 import kotlin.properties.Delegates
 
 open class PlayerView : FrameLayout {

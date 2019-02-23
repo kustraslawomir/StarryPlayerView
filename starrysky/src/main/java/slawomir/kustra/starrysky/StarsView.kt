@@ -1,4 +1,4 @@
-package slawomir.kustra.starysky.view
+package slawomir.kustra.starrysky
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -106,7 +106,7 @@ internal class StarsView : FrameLayout {
         for (i in 0..9) {
             val starSize = getStarSize(starsContainerWidth)
             val star = Bitmap.createScaledBitmap(
-                BitmapFactory.decodeResource(resources, slawomir.kustra.starysky.R.drawable.ic_star),
+                BitmapFactory.decodeResource(resources, R.drawable.ic_star),
                 starSize,
                 starSize,
                 true
