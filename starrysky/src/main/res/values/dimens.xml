@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="icon_padding">20dp</dimen>
+    <dimen name="default_margin">20dp</dimen>
     <dimen name="rounded_radius">10dp</dimen>
     <dimen name="player_margin_bottom">50dp</dimen>
     <dimen name="player_margin_start">16dp</dimen>
