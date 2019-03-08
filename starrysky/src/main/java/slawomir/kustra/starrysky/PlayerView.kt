@@ -15,6 +15,7 @@ import kotlin.properties.Delegates
 open class PlayerView : FrameLayout {
 
     private lateinit var vinylView: VinylView
+    private var callback: PlayerStateCallBack? = null
 
     private var playerState: Int by Delegates.observable(PAUSE) { _, _, new -> handlePlayerStateChange(new) }
 
@@ -80,11 +81,21 @@ open class PlayerView : FrameLayout {
         }
     }
 
-    internal fun resumePlayerUi() {
-        playerState = RESUME
+    public fun setCallback(callback : PlayerStateCallBack){
+        this.callback = callback
     }
 
-    internal fun pausePlayerUi() {
-        playerState = PAUSE
+    public fun resumePlayerUi() {
+        if (callback!=null){
+            playerState = RESUME
+            callback?.playClick()
+        }
+    }
+
+    public fun pausePlayerUi() {
+        if (callback!=null){
+            playerState = PAUSE
+            callback?.pauseClick()
+        }
     }
 }
