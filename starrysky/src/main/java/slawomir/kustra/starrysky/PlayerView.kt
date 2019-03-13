@@ -60,11 +60,8 @@ open class PlayerView : FrameLayout {
 
         if (attributeSet != null) {
             val typedArray = context.theme.obtainStyledAttributes(attributeSet, styleable.PlayerView, 0, 0)
-            try {
-                shouldDrawPlayerControls = typedArray.getBoolean(R.styleable.PlayerView_player_visible, true)
-            } finally {
-                Log.d("PlayerView", "shouldDrawPlayerControls $shouldDrawPlayerControls")
-            }
+            shouldDrawPlayerControls = typedArray.getBoolean(R.styleable.PlayerView_player_visible, true)
+            Log.d("PlayerView", "shouldDrawPlayerControls $shouldDrawPlayerControls")
         }
 
         val starsView = StarsView(context)
@@ -81,19 +78,19 @@ open class PlayerView : FrameLayout {
         }
     }
 
-    public fun setCallback(callback : PlayerStateCallBack){
+    public fun setCallback(callback: PlayerStateCallBack) {
         this.callback = callback
     }
 
     public fun resumePlayerUi() {
-        if (callback!=null){
+        if (callback != null) {
             playerState = RESUME
             callback?.playClick()
         }
     }
 
     public fun pausePlayerUi() {
-        if (callback!=null){
+        if (callback != null) {
             playerState = PAUSE
             callback?.pauseClick()
         }

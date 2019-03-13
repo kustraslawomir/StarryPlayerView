@@ -99,7 +99,6 @@ internal class StarsView : FrameLayout {
                     rect.right = endX
                     rect.bottom = endY
                     canvas.drawBitmap(bitmapStar, null, rect, alphaPaint)
-                    println("startX: $startX startY $startY endX $endX endY $endY")
                 }
             }
 
