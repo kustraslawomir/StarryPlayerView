@@ -1,6 +1,2 @@
 <resources>
-    <string name="app_name">Senna</string>
-    <string name="welcome">Test Welcome Value</string>
-    <string name="splash">Splash</string>
-    <string name="hello">Hello</string>
 </resources>

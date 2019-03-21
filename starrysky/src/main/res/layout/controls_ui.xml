@@ -4,7 +4,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <ImageView
-            android:src="@drawable/ic_bg_start"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
@@ -20,7 +19,7 @@
             android:visibility="visible"
             android:animateLayoutChanges="true"
             android:layout_width="match_parent"
-            android:padding="15dp"
+            android:padding="10dp"
             android:layout_gravity="bottom"
             android:gravity="center"
             android:layout_marginStart="@dimen/player_margin_start"
